@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <script>
+        // ฟังก์ชั่นสำหรับโหลดข้อมูลจากไฟล์ JSON
+        async function loadPasswords() {
+            const response = await fetch('pass.json');
+            const passwords = await response.json();
+            return passwords;
+        }
+
+        // ฟังก์ชั่นสำหรับการล็อคอิน
+        async function login(event) {
+            event.preventDefault(); // ป้องกันการรีเฟรชหน้า
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const passwords = await loadPasswords();
+
+            if (passwords[username] && passwords[username] === password) {
+                alert('Login successful! Welcome, ' + username + '.');
+                // เปลี่ยนหน้าไปยัง h.html
+                window.location.href = 'h.html';
+            } else {
+                alert('Invalid username or password.');
+            }
+        }
+    </script>
+</head>
+<body>
+    <h2>Login</h2>
+    <form onsubmit="login(event)">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username"><br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password"><br><br>
+        <input type="submit" value="Login">
+    </form>
+</body>
+</html>
